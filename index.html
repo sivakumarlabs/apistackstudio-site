@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Stack Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #020617; color: #e2e8f0; height: 100vh; overflow: hidden; }
+    #particles-js { position: absolute; width: 100%; height: 100%; z-index: 0; }
+    .wrapper { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center; padding: 20px; }
+    h1 { font-size: 3.2rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(90deg, #38bdf8, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .tagline { font-size: 1.2rem; color: #94a3b8; margin-bottom: 25px; }
+    .badge { padding: 6px 14px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 999px; font-size: 0.85rem; margin-bottom: 20px; display:inline-block;}
+    .email-box { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    input { padding:12px; border-radius:8px; border:1px solid #1e293b; background:#020617; color:white;}
+    button { padding:12px 18px; border:none; border-radius:8px; background:linear-gradient(90deg,#38bdf8,#6366f1); color:white; cursor:pointer;}
+    .success { margin-top:10px; color:#22c55e; }
+  </style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<div class="wrapper">
+  <div class="badge">🚀 Marketplace Coming Soon</div>
+  <h1>API Stack Studio</h1>
+  <div class="tagline">A marketplace for API tools, backend systems, and developer building blocks.</div>
+
+  <div class="email-box">
+    <input type="email" id="email" placeholder="Enter your email" />
+    <button onclick="submitEmail()">Get Early Access</button>
+  </div>
+
+  <div id="successMsg" class="success"></div>
+</div>
+
+<script>
+particlesJS("particles-js", {
+  particles: { number:{value:80}, size:{value:3}, color:{value:"#38bdf8"}, line_linked:{enable:true,distance:150,color:"#6366f1",opacity:0.4}, move:{speed:2} }
+});
+
+async function submitEmail(){
+  const email=document.getElementById('email').value;
+  const msg=document.getElementById('successMsg');
+  if(!email){ msg.innerText="Enter valid email"; return; }
+
+  const res=await fetch("https://formspree.io/f/xeevrojb",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json"},
+    body:JSON.stringify({ email })
+  });
+
+  if(res.ok){
+    msg.innerText="🎉 You're on the waitlist!";
+    document.getElementById('email').value="";
+  } else {
+    msg.innerText="Error. Try again.";
+  }
+}
+</script>
+
+</body>
+</html>
